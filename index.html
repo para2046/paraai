@@ -1,0 +1,732 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ParaAI — Intelligent Systems for Health, Education, and Research</title>
+    <meta name="description" content="ParaAI builds AI agents and intelligent systems that empower individuals in health, education, and research.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        *, *::before, *::after {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --bg-primary: #0a0a0f;
+            --bg-secondary: #12121a;
+            --bg-card: #1a1a26;
+            --accent: #6c5ce7;
+            --accent-glow: rgba(108, 92, 231, 0.3);
+            --accent-light: #a29bfe;
+            --text-primary: #e8e8ef;
+            --text-secondary: #9494a8;
+            --text-muted: #6b6b80;
+            --border: #2a2a3a;
+            --gradient-1: linear-gradient(135deg, #6c5ce7, #a29bfe);
+            --gradient-2: linear-gradient(135deg, #0a0a0f 0%, #1a1a2e 100%);
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* Navigation */
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 1000;
+            padding: 1.2rem 2rem;
+            background: rgba(10, 10, 15, 0.85);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--border);
+        }
+
+        .nav-inner {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.4rem;
+            font-weight: 700;
+            letter-spacing: -0.02em;
+        }
+
+        .logo span {
+            background: var(--gradient-1);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 0.9rem;
+            font-weight: 400;
+            transition: color 0.3s;
+        }
+
+        .nav-links a:hover {
+            color: var(--text-primary);
+        }
+
+        .nav-toggle {
+            display: none;
+            background: none;
+            border: none;
+            color: var(--text-primary);
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+
+        /* Hero */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 8rem 2rem 4rem;
+            position: relative;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 600px;
+            height: 600px;
+            background: radial-gradient(circle, var(--accent-glow) 0%, transparent 70%);
+            opacity: 0.4;
+            pointer-events: none;
+        }
+
+        .hero-content {
+            position: relative;
+            max-width: 800px;
+        }
+
+        .hero-badge {
+            display: inline-block;
+            padding: 0.4rem 1rem;
+            border: 1px solid var(--border);
+            border-radius: 100px;
+            font-size: 0.8rem;
+            color: var(--accent-light);
+            margin-bottom: 2rem;
+            letter-spacing: 0.05em;
+        }
+
+        .hero h1 {
+            font-size: clamp(2.5rem, 6vw, 4.5rem);
+            font-weight: 700;
+            line-height: 1.1;
+            letter-spacing: -0.03em;
+            margin-bottom: 1.5rem;
+        }
+
+        .hero h1 .highlight {
+            background: var(--gradient-1);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            color: var(--text-secondary);
+            max-width: 600px;
+            margin: 0 auto 2.5rem;
+            line-height: 1.7;
+        }
+
+        .hero-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 0.8rem 2rem;
+            border-radius: 8px;
+            font-size: 0.95rem;
+            font-weight: 500;
+            text-decoration: none;
+            transition: all 0.3s;
+            cursor: pointer;
+            border: none;
+            font-family: inherit;
+        }
+
+        .btn-primary {
+            background: var(--gradient-1);
+            color: #fff;
+            box-shadow: 0 4px 20px var(--accent-glow);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 30px var(--accent-glow);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: var(--text-primary);
+            border: 1px solid var(--border);
+        }
+
+        .btn-secondary:hover {
+            border-color: var(--accent);
+            background: rgba(108, 92, 231, 0.1);
+        }
+
+        /* Sections */
+        section {
+            padding: 6rem 2rem;
+        }
+
+        .section-inner {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .section-label {
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 0.15em;
+            color: var(--accent-light);
+            margin-bottom: 0.75rem;
+        }
+
+        .section-title {
+            font-size: clamp(1.8rem, 4vw, 2.5rem);
+            font-weight: 700;
+            letter-spacing: -0.02em;
+            margin-bottom: 1rem;
+        }
+
+        .section-subtitle {
+            color: var(--text-secondary);
+            font-size: 1.1rem;
+            max-width: 600px;
+            margin-bottom: 3rem;
+        }
+
+        /* Divisions */
+        #divisions {
+            background: var(--bg-secondary);
+        }
+
+        .divisions-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .division-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 2.5rem;
+            transition: all 0.3s;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .division-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: var(--gradient-1);
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .division-card:hover {
+            border-color: var(--accent);
+            transform: translateY(-4px);
+            box-shadow: 0 8px 40px rgba(0, 0, 0, 0.3);
+        }
+
+        .division-card:hover::before {
+            opacity: 1;
+        }
+
+        .division-icon {
+            width: 48px;
+            height: 48px;
+            border-radius: 12px;
+            background: rgba(108, 92, 231, 0.15);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.4rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .division-card h3 {
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin-bottom: 0.75rem;
+        }
+
+        .division-card p {
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+            line-height: 1.7;
+        }
+
+        .division-tag {
+            display: inline-block;
+            margin-top: 1.25rem;
+            padding: 0.3rem 0.75rem;
+            background: rgba(108, 92, 231, 0.1);
+            border: 1px solid rgba(108, 92, 231, 0.2);
+            border-radius: 100px;
+            font-size: 0.75rem;
+            color: var(--accent-light);
+        }
+
+        /* Projects */
+        .project-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 2.5rem;
+            display: flex;
+            gap: 3rem;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .project-info {
+            flex: 1;
+            min-width: 280px;
+        }
+
+        .project-status {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.3rem 0.8rem;
+            background: rgba(0, 200, 83, 0.1);
+            border: 1px solid rgba(0, 200, 83, 0.2);
+            border-radius: 100px;
+            font-size: 0.75rem;
+            color: #00c853;
+            margin-bottom: 1rem;
+        }
+
+        .project-status .dot {
+            width: 6px;
+            height: 6px;
+            background: #00c853;
+            border-radius: 50%;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.4; }
+        }
+
+        .project-info h3 {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 0.75rem;
+        }
+
+        .project-info p {
+            color: var(--text-secondary);
+            line-height: 1.7;
+            margin-bottom: 1.25rem;
+        }
+
+        .project-tech {
+            display: flex;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+        }
+
+        .tech-tag {
+            padding: 0.3rem 0.7rem;
+            background: rgba(108, 92, 231, 0.1);
+            border-radius: 6px;
+            font-size: 0.8rem;
+            color: var(--accent-light);
+        }
+
+        .project-visual {
+            flex: 0 0 280px;
+            height: 200px;
+            background: linear-gradient(135deg, rgba(108, 92, 231, 0.2), rgba(162, 155, 254, 0.1));
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3rem;
+        }
+
+        /* About / Founder */
+        #about {
+            background: var(--bg-secondary);
+        }
+
+        .about-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: center;
+        }
+
+        .about-text p {
+            color: var(--text-secondary);
+            line-height: 1.8;
+            margin-bottom: 1rem;
+        }
+
+        .about-text p:first-of-type {
+            font-size: 1.1rem;
+            color: var(--text-primary);
+        }
+
+        .founder-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 2.5rem;
+            text-align: center;
+        }
+
+        .founder-avatar {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            background: var(--gradient-1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2.2rem;
+            font-weight: 700;
+            color: #fff;
+            margin: 0 auto 1.5rem;
+        }
+
+        .founder-card h3 {
+            font-size: 1.3rem;
+            font-weight: 600;
+            margin-bottom: 0.25rem;
+        }
+
+        .founder-role {
+            color: var(--accent-light);
+            font-size: 0.9rem;
+            margin-bottom: 1rem;
+        }
+
+        .founder-card p {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            line-height: 1.7;
+        }
+
+        .founder-links {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin-top: 1.25rem;
+        }
+
+        .founder-links a {
+            color: var(--text-muted);
+            text-decoration: none;
+            font-size: 0.85rem;
+            transition: color 0.3s;
+        }
+
+        .founder-links a:hover {
+            color: var(--accent-light);
+        }
+
+        /* Contact */
+        .contact-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .contact-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 2rem;
+            text-align: center;
+            transition: border-color 0.3s;
+        }
+
+        .contact-card:hover {
+            border-color: var(--accent);
+        }
+
+        .contact-card .icon {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .contact-card h3 {
+            font-size: 1rem;
+            font-weight: 500;
+            margin-bottom: 0.5rem;
+        }
+
+        .contact-card a {
+            color: var(--accent-light);
+            text-decoration: none;
+            font-size: 0.9rem;
+        }
+
+        .contact-card a:hover {
+            text-decoration: underline;
+        }
+
+        /* Footer */
+        footer {
+            border-top: 1px solid var(--border);
+            padding: 2rem;
+            text-align: center;
+        }
+
+        .footer-inner {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        footer p {
+            color: var(--text-muted);
+            font-size: 0.85rem;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                right: 0;
+                background: rgba(10, 10, 15, 0.95);
+                backdrop-filter: blur(20px);
+                flex-direction: column;
+                padding: 1.5rem 2rem;
+                gap: 1rem;
+                border-bottom: 1px solid var(--border);
+            }
+
+            .nav-links.active {
+                display: flex;
+            }
+
+            .nav-toggle {
+                display: block;
+            }
+
+            .about-grid {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+
+            .project-card {
+                flex-direction: column;
+            }
+
+            .project-visual {
+                width: 100%;
+                flex: none;
+            }
+
+            section {
+                padding: 4rem 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Navigation -->
+    <nav>
+        <div class="nav-inner">
+            <div class="logo">Para<span>AI</span></div>
+            <button class="nav-toggle" onclick="document.querySelector('.nav-links').classList.toggle('active')">&#9776;</button>
+            <ul class="nav-links">
+                <li><a href="#divisions">Divisions</a></li>
+                <li><a href="#projects">Projects</a></li>
+                <li><a href="#about">About</a></li>
+                <li><a href="#contact">Contact</a></li>
+                <li><a href="https://github.com/para2046" target="_blank">GitHub</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Hero -->
+    <section class="hero">
+        <div class="hero-content">
+            <div class="hero-badge">&#128679; Under Construction — Launching Soon</div>
+            <h1>Intelligent systems for <span class="highlight">health, education, and research</span></h1>
+            <p>ParaAI builds AI agents and intelligent systems that empower individuals — bridging Eastern and Western knowledge traditions through advanced technology.</p>
+            <div class="hero-buttons">
+                <a href="#projects" class="btn btn-primary">Explore Projects</a>
+                <a href="#contact" class="btn btn-secondary">Get in Touch</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Divisions -->
+    <section id="divisions">
+        <div class="section-inner">
+            <div class="section-label">What We Do</div>
+            <h2 class="section-title">Three pillars of intelligence</h2>
+            <p class="section-subtitle">Our work spans three interconnected domains, each powered by purpose-built AI systems.</p>
+            <div class="divisions-grid">
+                <div class="division-card">
+                    <div class="division-icon">&#9764;</div>
+                    <h3>ParaAI Health</h3>
+                    <p>AI agents that combine Traditional Chinese Medicine with Western nutritional science to deliver personalized health and wellness guidance.</p>
+                    <span class="division-tag">TCM &middot; Nutrition &middot; Wellness</span>
+                </div>
+                <div class="division-card">
+                    <div class="division-icon">&#9734;</div>
+                    <h3>ParaAI Edu</h3>
+                    <p>Adaptive learning tools and intelligent tutoring systems that personalize education and make knowledge accessible to everyone, everywhere.</p>
+                    <span class="division-tag">Learning &middot; Tutoring &middot; Accessibility</span>
+                </div>
+                <div class="division-card">
+                    <div class="division-icon">&#9878;</div>
+                    <h3>ParaAI Labs</h3>
+                    <p>Our research division — advancing AI capabilities, publishing open-source tools, and pushing the boundaries of what intelligent systems can do.</p>
+                    <span class="division-tag">Research &middot; Open Source &middot; Publications</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Projects -->
+    <section id="projects">
+        <div class="section-inner">
+            <div class="section-label">Projects</div>
+            <h2 class="section-title">What we're building</h2>
+            <p class="section-subtitle">Open-source AI systems designed to make a real difference.</p>
+            <div class="project-card">
+                <div class="project-info">
+                    <div class="project-status"><span class="dot"></span> In Development</div>
+                    <h3>TCM Intelligence Agent</h3>
+                    <p>An open-source AI agent trained on classical Traditional Chinese Medicine texts and modern Western nutritional science. Bridging thousands of years of Eastern health wisdom with evidence-based Western dietary guidance.</p>
+                    <div class="project-tech">
+                        <span class="tech-tag">AI / LLM</span>
+                        <span class="tech-tag">RAG</span>
+                        <span class="tech-tag">TCM</span>
+                        <span class="tech-tag">Nutrition Science</span>
+                        <span class="tech-tag">Open Source</span>
+                    </div>
+                </div>
+                <div class="project-visual">&#128300;</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- About -->
+    <section id="about">
+        <div class="section-inner">
+            <div class="section-label">About</div>
+            <h2 class="section-title">The vision behind ParaAI</h2>
+            <div class="about-grid">
+                <div class="about-text">
+                    <p>ParaAI was founded on a simple belief: AI should amplify human potential, not replace it.</p>
+                    <p>We are building intelligent systems that serve individuals — helping them make better decisions about their health, accelerating how they learn, and empowering them to push the frontiers of research.</p>
+                    <p>Our approach is rooted in integration: bridging Eastern and Western knowledge traditions, combining academic rigor with practical application, and making powerful AI tools open and accessible to all.</p>
+                    <p>Based in Silicon Valley. Building for the world.</p>
+                </div>
+                <div class="founder-card">
+                    <div class="founder-avatar">IZ</div>
+                    <h3>Ivy Zhang</h3>
+                    <div class="founder-role">Founder &amp; Chief Scientist</div>
+                    <p>Stanford-affiliated researcher with a passion for health, AI, and bridging cultural knowledge systems. Building ParaAI to make intelligent systems that truly help people.</p>
+                    <div class="founder-links">
+                        <a href="https://github.com/para2046" target="_blank">GitHub</a>
+                        <a href="mailto:hello@paraai.co">Email</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact -->
+    <section id="contact">
+        <div class="section-inner">
+            <div class="section-label">Contact</div>
+            <h2 class="section-title">Let's connect</h2>
+            <p class="section-subtitle">Interested in collaborating, investing, or just want to say hello?</p>
+            <div class="contact-grid">
+                <div class="contact-card">
+                    <div class="icon">&#9993;</div>
+                    <h3>Email</h3>
+                    <a href="mailto:hello@paraai.co">hello@paraai.co</a>
+                </div>
+                <div class="contact-card">
+                    <div class="icon">&#128187;</div>
+                    <h3>GitHub</h3>
+                    <a href="https://github.com/para2046" target="_blank">github.com/para2046</a>
+                </div>
+                <div class="contact-card">
+                    <div class="icon">&#127891;</div>
+                    <h3>Research</h3>
+                    <a href="#projects">View our publications</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-inner">
+            <p>&copy; 2026 ParaAI Inc. All rights reserved.</p>
+            <p>Delaware C-Corp &middot; Silicon Valley, CA</p>
+        </div>
+    </footer>
+
+</body>
+</html>
